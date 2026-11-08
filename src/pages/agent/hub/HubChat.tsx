@@ -199,7 +199,6 @@ function Composer({
               <button type="button" onClick={() => { fileIn.current?.click(); setPlusOpen(false); }}><Paperclip size={18} />{ar ? "اختيار ملف" : "Choose File"}</button>
               <button type="button" onClick={() => { camIn.current?.click(); setPlusOpen(false); }}><Camera size={18} />{ar ? "التقاط صورة" : "Take Photo"}</button>
               <button type="button" onClick={() => { mediaIn.current?.click(); setPlusOpen(false); }}><ImageIcon size={18} />{ar ? "صورة أو فيديو" : "Photo or Video"}</button>
-              <Button variant="ghost" role="menuitem" onClick={() => { setMediaCreator(true); setPlusOpen(false); }}><ImageIcon size={18} />{ar ? "إنشاء صور وفيديو" : "Create media"}</Button>
             </div>
           )}
         </div>
