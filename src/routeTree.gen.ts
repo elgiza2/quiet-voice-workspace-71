@@ -50,6 +50,7 @@ import { Route as ApiWebSearchRouteImport } from './routes/api/web-search'
 import { Route as ApiAgentSplatRouteImport } from './routes/api/agent.$'
 import { Route as ApiPublicCeyoJobsRouteImport } from './routes/api/public/ceyo-jobs'
 import { Route as ApiPublicCeyoRoutinesRouteImport } from './routes/api/public/ceyo-routines'
+import { Route as ApiPublicConfigStatusRouteImport } from './routes/api/public/config-status'
 import { Route as ApiPublicFxRouteImport } from './routes/api/public/fx'
 import { Route as ApiPublicGeoRouteImport } from './routes/api/public/geo'
 import { Route as ApiPublicKashierWebhookRouteImport } from './routes/api/public/kashier-webhook'
@@ -265,6 +266,11 @@ const ApiPublicCeyoRoutinesRoute = ApiPublicCeyoRoutinesRouteImport.update({
   path: '/api/public/ceyo-routines',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicConfigStatusRoute = ApiPublicConfigStatusRouteImport.update({
+  id: '/api/public/config-status',
+  path: '/api/public/config-status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicFxRoute = ApiPublicFxRouteImport.update({
   id: '/api/public/fx',
   path: '/api/public/fx',
@@ -356,6 +362,7 @@ export interface FileRoutesByFullPath {
   '/api/agent/$': typeof ApiAgentSplatRoute
   '/api/public/ceyo-jobs': typeof ApiPublicCeyoJobsRoute
   '/api/public/ceyo-routines': typeof ApiPublicCeyoRoutinesRoute
+  '/api/public/config-status': typeof ApiPublicConfigStatusRoute
   '/api/public/fx': typeof ApiPublicFxRoute
   '/api/public/geo': typeof ApiPublicGeoRoute
   '/api/public/kashier-webhook': typeof ApiPublicKashierWebhookRoute
@@ -408,6 +415,7 @@ export interface FileRoutesByTo {
   '/api/agent/$': typeof ApiAgentSplatRoute
   '/api/public/ceyo-jobs': typeof ApiPublicCeyoJobsRoute
   '/api/public/ceyo-routines': typeof ApiPublicCeyoRoutinesRoute
+  '/api/public/config-status': typeof ApiPublicConfigStatusRoute
   '/api/public/fx': typeof ApiPublicFxRoute
   '/api/public/geo': typeof ApiPublicGeoRoute
   '/api/public/kashier-webhook': typeof ApiPublicKashierWebhookRoute
@@ -461,6 +469,7 @@ export interface FileRoutesById {
   '/api/agent/$': typeof ApiAgentSplatRoute
   '/api/public/ceyo-jobs': typeof ApiPublicCeyoJobsRoute
   '/api/public/ceyo-routines': typeof ApiPublicCeyoRoutinesRoute
+  '/api/public/config-status': typeof ApiPublicConfigStatusRoute
   '/api/public/fx': typeof ApiPublicFxRoute
   '/api/public/geo': typeof ApiPublicGeoRoute
   '/api/public/kashier-webhook': typeof ApiPublicKashierWebhookRoute
@@ -515,6 +524,7 @@ export interface FileRouteTypes {
     | '/api/agent/$'
     | '/api/public/ceyo-jobs'
     | '/api/public/ceyo-routines'
+    | '/api/public/config-status'
     | '/api/public/fx'
     | '/api/public/geo'
     | '/api/public/kashier-webhook'
@@ -567,6 +577,7 @@ export interface FileRouteTypes {
     | '/api/agent/$'
     | '/api/public/ceyo-jobs'
     | '/api/public/ceyo-routines'
+    | '/api/public/config-status'
     | '/api/public/fx'
     | '/api/public/geo'
     | '/api/public/kashier-webhook'
@@ -619,6 +630,7 @@ export interface FileRouteTypes {
     | '/api/agent/$'
     | '/api/public/ceyo-jobs'
     | '/api/public/ceyo-routines'
+    | '/api/public/config-status'
     | '/api/public/fx'
     | '/api/public/geo'
     | '/api/public/kashier-webhook'
@@ -672,6 +684,7 @@ export interface RootRouteChildren {
   ApiAgentSplatRoute: typeof ApiAgentSplatRoute
   ApiPublicCeyoJobsRoute: typeof ApiPublicCeyoJobsRoute
   ApiPublicCeyoRoutinesRoute: typeof ApiPublicCeyoRoutinesRoute
+  ApiPublicConfigStatusRoute: typeof ApiPublicConfigStatusRoute
   ApiPublicFxRoute: typeof ApiPublicFxRoute
   ApiPublicGeoRoute: typeof ApiPublicGeoRoute
   ApiPublicKashierWebhookRoute: typeof ApiPublicKashierWebhookRoute
@@ -972,6 +985,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicCeyoRoutinesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/config-status': {
+      id: '/api/public/config-status'
+      path: '/api/public/config-status'
+      fullPath: '/api/public/config-status'
+      preLoaderRoute: typeof ApiPublicConfigStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/fx': {
       id: '/api/public/fx'
       path: '/api/public/fx'
@@ -1080,6 +1100,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAgentSplatRoute: ApiAgentSplatRoute,
   ApiPublicCeyoJobsRoute: ApiPublicCeyoJobsRoute,
   ApiPublicCeyoRoutinesRoute: ApiPublicCeyoRoutinesRoute,
+  ApiPublicConfigStatusRoute: ApiPublicConfigStatusRoute,
   ApiPublicFxRoute: ApiPublicFxRoute,
   ApiPublicGeoRoute: ApiPublicGeoRoute,
   ApiPublicKashierWebhookRoute: ApiPublicKashierWebhookRoute,
