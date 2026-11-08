@@ -338,6 +338,7 @@ export type Database = {
           created_at: string
           spent_usd: number
           updated_at: string
+          usage_day: string
           user_id: string
         }
         Insert: {
@@ -345,6 +346,7 @@ export type Database = {
           created_at?: string
           spent_usd?: number
           updated_at?: string
+          usage_day?: string
           user_id: string
         }
         Update: {
@@ -352,6 +354,7 @@ export type Database = {
           created_at?: string
           spent_usd?: number
           updated_at?: string
+          usage_day?: string
           user_id?: string
         }
         Relationships: [
