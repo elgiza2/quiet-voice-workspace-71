@@ -1,5 +1,6 @@
 ## Android delivery — 2026-11-08
 - [x] Audit declaration evidence and save closed-testing draft versionCode 2; alpha countries currently sync with production, with no explicit region list or Google Groups configured.
+- [x] Create and visually inspect original-icon feature graphic; upload and freshly read back one graphic for each Arabic/English listing. Declaration evidence and remaining steps recorded in docs/PLAY-CONSOLE-DECLARATIONS.md.
 - [ ] Add requested individual tester elgizaoffical@gmail.com: individual-email lists require signed-in Play Console; API only supports Google Groups, so email was not falsely inserted as a group.
 - [ ] Complete privacy/app access/ads/rating/audience/Data Safety/government/finance/health/category/review forms: requires signed-in Console, truthful tracking/provider verification and working deletion/reviewer access. Owner intends all ages; children's compliance is not verified.
 - [x] Google Play accepts signed versionCode 2; committed internal testing release and fresh API read confirms status completed. Existing bundle was already uploaded; no duplicate upload performed.
