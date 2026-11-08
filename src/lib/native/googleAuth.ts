@@ -16,7 +16,8 @@ export function nativeGoogleCode(raw: string): string | null {
 
 let nativeClient: SupabaseClient | undefined;
 function authClient() {
-  if (!nativeClient) nativeClient = createClient(supabase.supabaseUrl, supabase.supabaseKey, {
+  // Publishable configuration only; never embed the Google client secret.
+  if (!nativeClient) nativeClient = createClient("https://kcrssdgsefhpzoidlhhm.supabase.co", "sb_publishable_qoVkpETZyG-dHOq_XYnFPw_vrxR_aJC", {
     auth: {
       flowType: "pkce", detectSessionInUrl: false, persistSession: false,
       autoRefreshToken: false, storageKey: "ceyo-native-google", storage: window.localStorage,
