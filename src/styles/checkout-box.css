@@ -1,0 +1,72 @@
+/* One scoped checkout surface; no legacy payment-page styling. */
+.cbox-screen {
+  --cbox-surface: #fff;
+  --cbox-ink: #151515;
+  --cbox-muted: #707070;
+  --cbox-line: #e6e6e6;
+  --cbox-soft: #f5f5f5;
+  --cbox-error: #b42318;
+  --cbox-shadow: 0 12px 48px rgb(0 0 0 / 18%);
+  --cbox-backdrop: rgb(0 0 0 / 38%);
+  position: fixed; inset: 0; z-index: 120; display: flex; align-items: flex-end; justify-content: center; padding: 12px 12px max(12px, env(safe-area-inset-bottom));
+  color: var(--cbox-ink); background: var(--cbox-backdrop); overscroll-behavior: contain; isolation: isolate;
+  font-family: inherit; letter-spacing: 0;
+}
+html body section.cbox-screen[role="dialog"] { background: var(--cbox-backdrop) !important; background-image: none !important; border: 0 !important; box-shadow: none !important; }
+.cbox-wrap { position: relative; width: 100%; max-width: 520px; max-height: calc(100dvh - 24px - env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; border-radius: 24px; box-shadow: var(--cbox-shadow); }
+html .cbox-screen button.cbox-close { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; border-radius: 50%; padding: 0; z-index: 1; }
+.cbox { background: var(--cbox-surface); color: var(--cbox-ink); border-radius: 24px; padding: 22px; width: 100%; max-width: 520px; margin: 0 auto; box-shadow: var(--cbox-shadow); text-align: left; }
+.cbox small { display: block; color: var(--cbox-muted); font-size: 12px; margin-top: 4px; line-height: 1.4; }
+.cbox b { font-weight: 500; font-size: 15px; }
+.cbox-summary { display: flex; align-items: center; gap: 12px; padding-top: 14px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--cbox-line); }
+.cbox-logo { width: 42px; height: 42px; border-radius: 8px; flex-shrink: 0; }
+.cbox-plan { flex: 1; min-width: 0; }
+.cbox-plan b { font-size: 18px; overflow-wrap: anywhere; }
+.cbox-price { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+html .cbox-screen .cbox button { background-image: none !important; box-shadow: none !important; color: var(--cbox-ink) !important; -webkit-text-fill-color: var(--cbox-ink) !important; border: 0; text-shadow: none; }
+html .cbox-screen button::before, html .cbox-screen button::after { display: none !important; }
+html .cbox-screen .cbox button:focus-visible { outline: 2px solid var(--cbox-muted); outline-offset: 3px; }
+html .cbox-screen .cbox button.cbox-pay-row { width: 100%; height: auto; min-height: 72px; display: flex; justify-content: flex-start; gap: 12px; text-align: left; background: var(--cbox-soft) !important; border: 1px solid var(--cbox-line); border-radius: 8px; padding: 12px; }
+.cbox-pay-row > span:nth-child(2) { flex: 1; }
+.cbox-row-icon { width: 38px; height: 30px; border: 1px solid var(--cbox-line); border-radius: 6px; background: var(--cbox-surface); display: grid; place-items: center; flex-shrink: 0; }
+.cbox-chev { display: grid; place-items: center; flex-shrink: 0; }
+.cbox-note { font-size: 13px; line-height: 1.6; color: var(--cbox-muted); margin: 0; }
+.cbox-error { font-size: 13px; line-height: 1.5; color: var(--cbox-error); margin: 12px 0; overflow-wrap: anywhere; }
+html .cbox-screen .cbox button.cbox-cta { width: 100%; height: 52px; margin: 18px 0 0; border-radius: 999px; background: var(--cbox-ink) !important; color: var(--cbox-surface) !important; -webkit-text-fill-color: var(--cbox-surface) !important; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+html .cbox-screen .cbox button.cbox-cta * { color: var(--cbox-surface) !important; }
+.cbox-brands { display: flex; justify-content: center; gap: 6px; margin-top: 18px; }
+.cbox-tile { width: 38px; height: 25px; border: 1px solid var(--cbox-line); border-radius: 4px; background: var(--cbox-surface); display: grid; place-items: center; flex-shrink: 0; }
+.cbox-mark-svg { width: 16px; height: 16px; }
+.cbox-mark-wide { width: 26px; }
+.cbox-head { display: flex; align-items: center; gap: 12px; padding-bottom: 18px; }
+.cbox-head h2 { font-size: 18px; line-height: 1.4; font-weight: 500; margin: 0; }
+html body .cbox-screen .cbox h2, html body .cbox-screen .cbox h3, html body .cbox-screen .cbox b, html body .cbox-screen .cbox strong, html body .cbox-screen .cbox .cbox-field > span { color: var(--cbox-ink) !important; -webkit-text-fill-color: var(--cbox-ink) !important; text-shadow: none !important; }
+html body .cbox-screen .cbox small, html body .cbox-screen .cbox .cbox-note, html body .cbox-screen .cbox .cbox-security, html body .cbox-screen .cbox .cbox-status p { color: var(--cbox-muted) !important; -webkit-text-fill-color: var(--cbox-muted) !important; text-shadow: none !important; }
+html body .cbox-screen button.cbox-close { background: var(--cbox-soft) !important; color: var(--cbox-ink) !important; -webkit-text-fill-color: var(--cbox-ink) !important; border: 0 !important; box-shadow: none !important; }
+html .cbox-screen .cbox button.cbox-back { width: 32px; height: 32px; padding: 0; background: transparent !important; border-radius: 50%; flex-shrink: 0; }
+html .cbox-screen .cbox button.cbox-option, html .cbox-screen .cbox button.cbox-addcard { width: 100%; height: auto; min-height: 62px; display: flex; justify-content: flex-start; gap: 14px; text-align: left; padding: 10px 0; background: transparent !important; border-radius: 0; }
+.cbox-option > span:nth-child(2), .cbox-addcard > span:nth-child(2) { flex: 1; }
+.cbox-check { width: 18px; height: 18px; }
+.cbox-rule { border: 0; border-top: 1px solid var(--cbox-line); margin: 12px 0; }
+.cbox-section { font-size: 12px; color: var(--cbox-muted); margin: 16px 0 4px; }
+.cbox-marks { display: flex; gap: 4px; }
+.cbox-form { display: grid; gap: 16px; }
+.cbox-field { display: grid; gap: 8px; min-width: 0; font-size: 12px; font-weight: 500; }
+html .cbox-screen .cbox .cbox-field input { width: 100%; min-width: 0; height: 48px; border: 1px solid var(--cbox-line) !important; border-radius: 8px; background: var(--cbox-surface) !important; color: var(--cbox-ink) !important; -webkit-text-fill-color: var(--cbox-ink) !important; padding: 0 12px; font-size: 16px; box-shadow: none !important; }
+.cbox-field input::placeholder { color: var(--cbox-muted); }
+.cbox-field input:focus-visible { outline: 2px solid var(--cbox-muted); outline-offset: 1px; }
+.cbox-field-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.cbox-form .cbox-cta { margin-top: 4px !important; }
+.cbox-security { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; line-height: 1.5; color: var(--cbox-muted); margin: 12px 0 0; }
+.cbox-security svg { width: 14px; height: 14px; flex-shrink: 0; }
+.cbox-status { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 24px 0; text-align: center; }
+.cbox-status h3 { font-size: 18px; font-weight: 500; }
+.cbox-status p { font-size: 13px; line-height: 1.6; color: var(--cbox-muted); }
+.cbox-success { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: var(--cbox-soft); }
+.cbox-embedded { width: 100%; min-height: 380px; }
+.cbox-embedded iframe { width: 100%; min-height: 440px; border: 0; display: block; background: var(--cbox-surface); }
+.cbox-spin { animation: cbox-spin 1s linear infinite; }
+@keyframes cbox-spin { to { transform: rotate(360deg); } }
+@media (max-width: 360px) { .cbox { padding: 18px 14px; } .cbox-price { font-size: 14px; } .cbox-plan b { font-size: 16px; } }
+@media (min-width: 640px) { .cbox-screen { align-items: center; } }
+@media (prefers-reduced-motion: reduce) { .cbox-spin { animation: none; } }

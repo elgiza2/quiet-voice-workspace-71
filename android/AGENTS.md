@@ -1,0 +1,4 @@
+- Keep applicationId stable after the first Play upload and increment versionCode for every subsequent upload. Why: Play identifies updates by the package and version.
+- Keep upload keys/passwords outside source and source archives; generate and sign on the owner's machine. Why: release ownership must not rely on temporary sandbox keys.
+- The Capacitor shell loads the configured HTTPS origin; never expose private keys or enable arbitrary-origin JS interfaces. Why: only the trusted app should reach native capabilities.
+- Native Billing returns purchase tokens to the authenticated server for verification; do not grant access or mark orders paid in native code. Why: store UI success is not entitlement verification.

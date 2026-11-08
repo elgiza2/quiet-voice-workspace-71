@@ -1,0 +1,1 @@
+- Wallet market data (prices, lists, coin details, charts) loads only through marketData.ts: CoinGecko first, then free fallbacks, with the last good answer cached. Why: one provider's rate limits must not leave coins blank.
