@@ -30,7 +30,10 @@ export function absoluteAuthRedirect(
   redirect: string | null | undefined,
   currentSearch?: string,
 ): string {
-  const path = getPostAuthPath(redirect, currentSearch);
+  const destination = getPostAuthPath(redirect, currentSearch);
+  // OAuth lands publicly; the destination is only followed after session verification.
+  const params = new URLSearchParams({ oauth: "1", redirect: destination });
+  const path = `/auth?${params}`;
   if (typeof window === "undefined") return path;
   return `${window.location.origin}${path}`;
 }

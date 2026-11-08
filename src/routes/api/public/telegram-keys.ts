@@ -16,6 +16,10 @@ function safeEqual(a: string, b: string) {
   return x.length === y.length && timingSafeEqual(x, y);
 }
 
+export function telegramAdminIds(config: string | undefined): number[] {
+  return (config ?? "").split(",").map((v) => v.trim()).filter((v) => /^[1-9]\d*$/.test(v)).map(Number).filter(Number.isSafeInteger);
+}
+
 type ProviderId = "cerebras" | "browserbase" | "composio";
 const PROVIDERS: Record<ProviderId, { label: string; icon: string; use: string }> = {
   cerebras: { label: "Cerebras", icon: "🧠", use: "ردود الوكلاء" },
@@ -73,6 +77,8 @@ export const Route = createFileRoute("/api/public/telegram-keys")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const owners = telegramAdminIds(process.env.TELEGRAM_ADMIN_IDS);
+        if (!owners.length) return new Response("Operator not configured", { status: 503 });
         const { getTelegramBotToken, telegramRequest } = await import("@/lib/keys/telegram.server");
         const token = await getTelegramBotToken().catch(() => null);
         if (!token) return new Response("not configured", { status: 500 });
@@ -84,14 +90,13 @@ export const Route = createFileRoute("/api/public/telegram-keys")({
         const send = (chatId: number, text: string, markup?: unknown) =>
           tg("sendMessage", { chat_id: chatId, text, parse_mode: "HTML", ...(markup ? { reply_markup: markup } : {}) });
 
-        const owners = (process.env.TELEGRAM_ADMIN_IDS || "6657246146").split(",").map((v) => Number(v.trim())).filter(Boolean);
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const db = supabaseAdmin as any;
 
         const listKeys = async () => {
           const { data } = await db
             .from("provider_api_keys")
-            .select("id,provider,api_key,status,cooldown_until,created_at")
+            .select("id,provider,status,cooldown_until,created_at")
             .order("created_at", { ascending: true });
           return (data ?? []) as Array<{ id: string; provider: ProviderId; api_key: string; status: string; cooldown_until: string | null }>;
         };

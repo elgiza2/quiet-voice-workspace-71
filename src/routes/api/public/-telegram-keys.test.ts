@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { normalizeProvider } from "./telegram-keys";
+import { normalizeProvider, telegramAdminIds } from "./telegram-keys";
 
 describe("telegram provider routing", () => {
+  it("fails closed without an explicitly configured Telegram owner", () => {
+    expect(telegramAdminIds(undefined)).toEqual([]);
+    expect(telegramAdminIds("0,-3,no,1.2")).toEqual([]);
+    expect(telegramAdminIds("123, 456")).toEqual([123, 456]);
+  });
   it("maps buttons and commands to the three chat providers", () => {
     expect(normalizeProvider("keys:provider:cerebras".slice("keys:provider:".length))).toBe(
       "cerebras",

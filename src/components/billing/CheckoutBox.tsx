@@ -32,9 +32,7 @@ export function CheckoutBox({ name, subtitle, total, kashier, busy, error, onPay
       ) : (
         <Button variant="ghost" type="button" className="cbox-option" disabled={busy || kashier === null} onClick={() => pick("google_pay")}><Tile k="googlepay" /><span><b>Google Pay</b><small>Pay with your Google account</small></span>{method === "google_pay" && <Check className="cbox-check" />}</Button>
       )}
-      <hr className="cbox-rule" />
-      <p className="cbox-section">Payment details</p>
-      <Button variant="ghost" type="button" className="cbox-addcard" disabled={busy || kashier === null} onClick={() => pick("card")}><CreditCard /><span>Add card</span><span className="cbox-marks"><Tile k="mastercard" /><Tile k="visa" /></span></Button>
+      <Button variant="ghost" type="button" className="cbox-option" disabled={busy || kashier === null} onClick={() => pick("card")}><span className="cbox-tile"><CreditCard /></span><span><b>Card</b><small>Visa or Mastercard</small></span><span className="cbox-marks"><Tile k="mastercard" /><Tile k="visa" /></span></Button>
       {error && <p role="alert" className="cbox-error">{error}</p>}
     </div>
   );

@@ -4,7 +4,7 @@
 1. Import this repository in Vercel. Use Node 22 and Bun; install `bun install`, build `bun run build`. No SPA rewrites or manual output directory.
 2. `VERCEL=1` selects Nitro's Vercel adapter in the existing config; Lovable keeps its managed adapter. Do not duplicate framework plugins.
 3. Add server credentials in Vercel Environment Variables, never in Git or `VITE_*`: the current Supabase server credentials, payment credentials, voice/provider fallbacks, cron secret and signing credentials listed in `docs/service-credentials-inventory.md`. Names alone do not establish that the destination has them.
-4. Set `PUBLIC_APP_URL=https://app.ceyo.si` for the Android host, or the web domain on the web deployment. Configure Supabase Auth allowed redirect URLs and each provider webhook for the actual destination. Provider pool remains in the existing Supabase project.
+4. Set both `PUBLIC_APP_URL` and `APP_URL` to the stable HTTPS origin serving this deployment (web or Android). Configure Supabase Auth allowed redirect URLs and each provider webhook for the actual destination. Provider pool remains in the existing Supabase project; Edge Function secrets are not automatically available in Vercel.
 5. Attach `web.ceyo.si` and `app.ceyo.si` to the app deployment. The landing site is separate and intentionally not built here.
 6. Test login, chat, voice, integration authorization, signed payment settlement and background jobs on Vercel. No external deployment was performed in this pass. Fire-and-forget long jobs and production scheduling still require runtime verification; see README.
 7. The platform manages `.gitignore`; ensure local `.env`, `.vercel`, Android build/cache files, `local.properties`, keystores and passwords are excluded before exporting/pushing outside Lovable. The clean delivery ZIP excludes them.
@@ -28,3 +28,33 @@
 
 ## Verification in this pass
 Release compilation succeeded with Gradle and API 36. Automated payment/settings tests and notifier cleanup regression are run separately. The web interface is reviewed using isolated actual components; no signed-in external account or real payment was verified. The generated AAB is unsigned and the configured host has not been verified live.
+
+## Google sign-in — exact production setup
+Observed 2026-11-08: the public app opens on all three domains; the production Google button returns `Unsupported provider: provider is not enabled`. This is provider configuration, not evidence of a server outage.
+
+In Google Cloud Console → Google Auth Platform:
+- Branding authorized domain: `ceyo.si`. Home page `https://ceyo.si`; privacy `https://ceyo.si/privacy`; terms `https://ceyo.si/terms`. Verify the legal pages before submitting consent/store review.
+- OAuth client type: **Web application** for the browser Supabase flow.
+- Authorized JavaScript origins: `https://web.ceyo.si`, `https://app.ceyo.si`; add `https://ceyo.si` and `https://www.ceyo.si` only while root-domain login remains active.
+- Authorized redirect URI (Google → Supabase): **`https://kcrssdgsefhpzoidlhhm.supabase.co/auth/v1/callback`**. This is not the app's return URL.
+- Scopes: `openid`, email, profile. Enable the Google provider in the existing Supabase project using that client's ID and secret; never commit the secret.
+
+Supabase → Authentication → URL Configuration:
+- Site URL: `https://web.ceyo.si`.
+- Redirect allowlist: `https://web.ceyo.si/auth**`, `https://app.ceyo.si/auth**`.
+- Temporary root-domain login: `https://ceyo.si/auth**`, `https://www.ceyo.si/auth**`.
+- Preview, if needed: `https://id-preview--c87dc9b3-8252-409e-955f-fb7fa040419b.lovable.app/auth**`.
+- The app returns to `/auth?oauth=1&redirect=...` and verifies the session before navigation. Existing profile creation remains authoritative.
+
+Native Android Google sign-in is a separate release blocker: Google's authorization page must not run inside an embedded WebView. Complete system-browser/native Google authentication with a verified app return before store testing; record Play App Signing SHA-1/SHA-256 when configuring an Android OAuth client. Browser-only success does not verify the Android flow.
+
+## Owner inputs for the store release
+- Play Console application access/setup and confirmation of package `si.ceyo.app` (keep stable after upload).
+- Subscription product IDs, active base-plan IDs, prices and periods for every offered tier; the server currently expects `ceyo_<tier>_<interval>`.
+- Play service-account authorization for server-side purchase checks; submit its JSON through secure configuration, never chat or Git.
+- Owner-generated upload key kept locally; send only the public certificate fingerprints, not keystore/password/private key.
+- Store name, descriptions, icon/screenshots, support contact, live privacy/account-deletion page, Data Safety and content-rating declarations.
+- An Android device and license tester for Internal testing. Complete purchase acknowledgment, restore, cancellation and renewal before selling publicly.
+
+## Telegram administration release blockers
+The current bot covers three providers only, and key intake still accepts chat messages into plaintext server-only rows. Do not activate that intake for production credentials. Telegram must launch protected credential entry backed by encrypted storage, with explicit operator IDs, safe metadata-only status views and provider-specific consumers. Pair payment/account identifiers with their original merchant/project credentials; rotating unrelated merchant or project keys can invalidate existing payments, calls or linked accounts. Missing `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` in the hosting runtime blocks Vault and pool access even when those secrets exist in Supabase Edge settings. Full all-service distribution remains incomplete until secure intake, provider coverage and live failure/restore verification are finished.
