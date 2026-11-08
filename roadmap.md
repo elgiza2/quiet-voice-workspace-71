@@ -1,3 +1,9 @@
+## Android delivery — 2026-11-08
+- [ ] Install Android build tools and compile the current native release bundle here.
+- [ ] Prepare store descriptions, support contact and subscription catalogue using existing project data.
+- [ ] Verify native Google sign-in readiness and record remaining console/device blockers accurately.
+- [ ] Deliver the inspected bundle and release instructions; signing remains owner-held per Android project rules.
+
 ## Release repair — 2026-11-08
 - [x] Card is a peer payment choice; mobile/desktop isolated selection verified; all 202 existing/new tests pass.
 - [x] Public Google return, verified-session navigation and official shared Google button; exact console URLs in release guide.
