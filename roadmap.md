@@ -1,4 +1,7 @@
 ## Android delivery — 2026-11-08
+- [x] Prepare recurring Google Play products and a one-month-only 50% introductory offer; native offer selection and 8 focused tests pass.
+- [x] Produce versionCode 2 signed bundle and product setup files; signature and bundle validation pass.
+- [ ] Create and activate products inside Play Console: requires GOOGLE_PLAY_SERVICE_ACCOUNT with product-management authorization; secure form requested.
 - [x] Sign the first bundle with a secure-form password and deliver the password-protected upload-key backup; jarsigner verification and bundletool validation pass.
 - [x] Install Android build tools and compile the current native release bundle here; Gradle and bundletool validation pass.
 - [x] Prepare Arabic/English store descriptions, existing support contact and subscription catalogue.

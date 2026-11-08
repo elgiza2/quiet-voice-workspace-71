@@ -2,3 +2,4 @@
 - Keep upload keys/passwords outside source and source archives; when the owner requests signing here, use a secure-form password and deliver a password-protected upload keystore for owner backup. Why: release ownership must not rely on temporary sandbox keys.
 - The Capacitor shell loads the configured HTTPS origin; never expose private keys or enable arbitrary-origin JS interfaces. Why: only the trusted app should reach native capabilities.
 - Native Billing returns purchase tokens to the authenticated server for verification; do not grant access or mark orders paid in native code. Why: store UI success is not entitlement verification.
+- Select offers by configured basePlanId/offerId and validated phase terms, with regular-plan fallback for ineligible users. Why: Play offer array order is not a promotion contract.
