@@ -4,13 +4,13 @@ import { CheckoutBox } from "./CheckoutBox";
 it("selecting a payment method starts details without a second Subscribe", () => {
   const onPay = vi.fn();
   render(<CheckoutBox name="Ceyo Plus" subtitle="Monthly" total="EGP 1079" kashier busy={false} error="" onPay={onPay} />);
-  fireEvent.click(screen.getByRole("button", { name: /Add card/ }));
+  fireEvent.click(screen.getByRole("button", { name: /Card Visa or Mastercard/ }));
   expect(onPay).toHaveBeenCalledTimes(1);
   expect(onPay).toHaveBeenCalledWith("card");
 });
 it("cannot select a method before the country quote arrives", () => {
   const onPay = vi.fn();
   render(<CheckoutBox name="Ceyo Plus" subtitle="Monthly" total="…" kashier={null} busy={false} error="" onPay={onPay} />);
-  fireEvent.click(screen.getByRole("button", { name: /Add card/ }));
+  fireEvent.click(screen.getByRole("button", { name: /Card Visa or Mastercard/ }));
   expect(onPay).not.toHaveBeenCalled();
 });
