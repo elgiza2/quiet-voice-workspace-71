@@ -1,4 +1,5 @@
 ## Android delivery — 2026-11-08
+- [ ] Upload signed versionCode 2 to Google Play and prepare an internal-testing draft plus truthful store details; public rollout waits on Play declarations and purchase/device verification.
 - [x] Validate uploaded service account privately; create/activate and read back all four Play subscriptions and three one-month-only 50% offers (174 regions). Google-normalized US prices: 19.99/199.99/59.99/119.99 USD.
 - [x] Persist GOOGLE_PLAY_SERVICE_ACCOUNT through the encrypted secret form; tool confirms encrypted storage. Credential never copied to source.
 - [x] Prepare recurring Google Play products and a one-month-only 50% introductory offer; native offer selection and 8 focused tests pass.
