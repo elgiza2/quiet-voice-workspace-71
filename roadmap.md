@@ -1,5 +1,7 @@
 ## Android delivery — 2026-11-08
-- [ ] Complete requested Play setup: audit declarations, prepare closed testing, inspect countries/testers, and document Console-only/privacy/login/ads/rating/audience/Data Safety/government/finance/health/category/review blockers without fabricated claims.
+- [x] Audit declaration evidence and save closed-testing draft versionCode 2; alpha countries currently sync with production, with no explicit region list or Google Groups configured.
+- [ ] Add requested individual tester elgizaoffical@gmail.com: individual-email lists require signed-in Play Console; API only supports Google Groups, so email was not falsely inserted as a group.
+- [ ] Complete privacy/app access/ads/rating/audience/Data Safety/government/finance/health/category/review forms: requires signed-in Console, truthful tracking/provider verification and working deletion/reviewer access. Owner intends all ages; children's compliance is not verified.
 - [x] Google Play accepts signed versionCode 2; committed internal testing release and fresh API read confirms status completed. Existing bundle was already uploaded; no duplicate upload performed.
 - [x] Save/read back Ceyo Arabic/English descriptions, support email and website; upload original 512px icon for both locales.
 - [ ] Public Google Play release: content rating/Data Safety/audience/app access/deletion declarations require Play Console; feature graphic/screenshots and actual device purchase/restore/renewal checks remain incomplete. Internal release is not public approval.
