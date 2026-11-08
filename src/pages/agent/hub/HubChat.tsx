@@ -190,9 +190,9 @@ function Composer({
       <input ref={fileIn} type="file" multiple hidden onChange={(e) => addFiles(e.target.files)} />
       <input ref={camIn} type="file" accept="image/*" capture="environment" hidden onChange={(e) => addFiles(e.target.files)} />
       <input ref={mediaIn} type="file" accept="image/*,video/*" multiple hidden onChange={(e) => addFiles(e.target.files)} />
-      {plusOpen && <div className="cx-scrim" onPointerDown={() => setPlusOpen(false)} />}
       <div className="cx-composer" data-listening={listening}>
         <div className="cx-plus-wrap">
+          {plusOpen && <div className="cx-scrim" onPointerDown={() => setPlusOpen(false)} />}
           <button type="button" className="cx-circle" aria-label="More" onClick={() => setPlusOpen((o) => !o)}><Plus size={20} /></button>
           {plusOpen && (
             <div className="cx-pop cx-pop-up" role="menu">
