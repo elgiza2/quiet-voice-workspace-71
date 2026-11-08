@@ -1,8 +1,9 @@
 ## Android delivery — 2026-11-08
-- [ ] Install Android build tools and compile the current native release bundle here.
-- [ ] Prepare store descriptions, support contact and subscription catalogue using existing project data.
-- [ ] Verify native Google sign-in readiness and record remaining console/device blockers accurately.
-- [ ] Deliver the inspected bundle and release instructions; signing remains owner-held per Android project rules.
+- [x] Install Android build tools and compile the current native release bundle here; Gradle and bundletool validation pass.
+- [x] Prepare Arabic/English store descriptions, existing support contact and subscription catalogue.
+- [x] Implement system-browser PKCE Google return; 7 focused tests pass. Physical-device Google sign-in remains unverified.
+- [x] Deliver the inspected unsigned bundle and release instructions.
+- [ ] Upload-ready signed release and live subscriptions: owner-held signing required by Android rules; Play Console service account/products, acknowledgment/restore/renewal and physical-device tests unavailable/incomplete.
 
 ## Release repair — 2026-11-08
 - [x] Card is a peer payment choice; mobile/desktop isolated selection verified; all 202 existing/new tests pass.

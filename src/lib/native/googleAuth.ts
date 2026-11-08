@@ -19,7 +19,7 @@ function authClient() {
   // Publishable configuration only; never embed the Google client secret.
   if (!nativeClient) nativeClient = createClient("https://kcrssdgsefhpzoidlhhm.supabase.co", "sb_publishable_qoVkpETZyG-dHOq_XYnFPw_vrxR_aJC", {
     auth: {
-      flowType: "pkce", detectSessionInUrl: false, persistSession: false,
+      flowType: "pkce", detectSessionInUrl: false, persistSession: true,
       autoRefreshToken: false, storageKey: "ceyo-native-google", storage: window.localStorage,
     },
   });
@@ -56,6 +56,7 @@ export async function listenNativeGoogle(onSuccess: () => void, onError: (error:
       if (restored.error) throw restored.error;
       const verified = await supabase.auth.getUser();
       if (verified.error || !verified.data.user) throw new Error("Google sign-in could not be verified");
+      window.localStorage.removeItem("ceyo-native-google");
       if (!disposed) onSuccess();
     } catch (error) { if (!disposed) onError(error); }
     finally { exchanging = false; }
