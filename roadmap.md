@@ -1,4 +1,5 @@
 ## Android delivery — 2026-11-08
+- [ ] Complete requested Play setup: audit declarations, prepare closed testing, inspect countries/testers, and document Console-only/privacy/login/ads/rating/audience/Data Safety/government/finance/health/category/review blockers without fabricated claims.
 - [x] Google Play accepts signed versionCode 2; committed internal testing release and fresh API read confirms status completed. Existing bundle was already uploaded; no duplicate upload performed.
 - [x] Save/read back Ceyo Arabic/English descriptions, support email and website; upload original 512px icon for both locales.
 - [ ] Public Google Play release: content rating/Data Safety/audience/app access/deletion declarations require Play Console; feature graphic/screenshots and actual device purchase/restore/renewal checks remain incomplete. Internal release is not public approval.
