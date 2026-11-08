@@ -1,5 +1,7 @@
 ## Android delivery — 2026-11-08
-- [ ] Upload signed versionCode 2 to Google Play and prepare an internal-testing draft plus truthful store details; public rollout waits on Play declarations and purchase/device verification.
+- [x] Google Play accepts signed versionCode 2; committed internal testing release and fresh API read confirms status completed. Existing bundle was already uploaded; no duplicate upload performed.
+- [x] Save/read back Ceyo Arabic/English descriptions, support email and website; upload original 512px icon for both locales.
+- [ ] Public Google Play release: content rating/Data Safety/audience/app access/deletion declarations require Play Console; feature graphic/screenshots and actual device purchase/restore/renewal checks remain incomplete. Internal release is not public approval.
 - [x] Validate uploaded service account privately; create/activate and read back all four Play subscriptions and three one-month-only 50% offers (174 regions). Google-normalized US prices: 19.99/199.99/59.99/119.99 USD.
 - [x] Persist GOOGLE_PLAY_SERVICE_ACCOUNT through the encrypted secret form; tool confirms encrypted storage. Credential never copied to source.
 - [x] Prepare recurring Google Play products and a one-month-only 50% introductory offer; native offer selection and 8 focused tests pass.

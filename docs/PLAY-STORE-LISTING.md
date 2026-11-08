@@ -1,5 +1,11 @@
 # Ceyo — first Google Play listing draft
 
+## Live status — 2026-11-08
+- Internal testing release versionCode 2 / 1.0.1 is committed; a fresh Android Publisher API read reports `completed`. This is not a public production release or store approval.
+- Ceyo name, Arabic/English descriptions, support email and website are saved and read back; original 512px icon uploaded for both locales.
+- Four subscriptions and three one-month-only half-price offers are ACTIVE. US converted prices are 19.99 monthly Plus, 199.99 annual Plus, 59.99 monthly Pro and 119.99 monthly Ultra USD.
+- No phone screenshots are currently saved. Feature graphic, truthful Console declarations (Data Safety, content rating, audience, app access, deletion) and physical-device purchase/restore/renewal verification still block a complete public release.
+
 ## Identity
 - App name: **Ceyo**
 - Package: **si.ceyo.app**
