@@ -35,8 +35,25 @@ public class PlayBillingPlugin extends Plugin implements PurchasesUpdatedListene
                 if (result.getResponseCode() != BillingClient.BillingResponseCode.OK || details.getProductDetailsList().isEmpty()) { fail("Subscription is not available in Google Play yet"); return; }
                 ProductDetails detail = details.getProductDetailsList().get(0);
                 if (detail.getSubscriptionOfferDetails() == null || detail.getSubscriptionOfferDetails().isEmpty()) { fail("No subscription base plan is available"); return; }
+                boolean yearly = productId.endsWith("_yearly");
+                ProductDetails.SubscriptionOfferDetails selected = null;
+                ProductDetails.SubscriptionOfferDetails base = null;
+                for (ProductDetails.SubscriptionOfferDetails offer : detail.getSubscriptionOfferDetails()) {
+                    if (IntroOfferPolicy.isBase(offer.getBasePlanId(), offer.getOfferId(), yearly)) base = offer;
+                    java.util.List<ProductDetails.PricingPhase> phases = offer.getPricingPhases().getPricingPhaseList();
+                    if (!yearly && phases.size() == 2) {
+                        ProductDetails.PricingPhase first = phases.get(0);
+                        ProductDetails.PricingPhase recurring = phases.get(1);
+                        if (recurring.getRecurrenceMode() == ProductDetails.RecurrenceMode.INFINITE_RECURRING
+                            && IntroOfferPolicy.isIntro(offer.getBasePlanId(), offer.getOfferId(), first.getBillingPeriod(),
+                                first.getBillingCycleCount(), first.getPriceAmountMicros(), recurring.getPriceAmountMicros())) selected = offer;
+                    }
+                }
+                // Play only returns eligible offers. Returning customers get the regular base plan.
+                if (selected == null) selected = base;
+                if (selected == null) { fail("The configured subscription plan is unavailable"); return; }
                 BillingFlowParams.ProductDetailsParams selection = BillingFlowParams.ProductDetailsParams.newBuilder()
-                    .setProductDetails(detail).setOfferToken(detail.getSubscriptionOfferDetails().get(0).getOfferToken()).build();
+                    .setProductDetails(detail).setOfferToken(selected.getOfferToken()).build();
                 getActivity().runOnUiThread(() -> {
                     BillingResult started = client.launchBillingFlow(getActivity(), BillingFlowParams.newBuilder()
                         .setObfuscatedAccountId(accountId).setProductDetailsParamsList(Collections.singletonList(selection)).build());
