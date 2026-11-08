@@ -1,4 +1,5 @@
-import { getCerebrasKeys } from "@/lib/keys/cerebrasKey";
+import { getCerebrasKeys, markCerebrasFailure, markCerebrasUse, type CerebrasKey } from "@/lib/keys/cerebrasKey";
+import { canUseAuthorizedBackup, classifyProviderFailure } from "./providerFailover";
 import { getProviderKey } from "@/lib/keys/providerKey";
 import { replyLanguageInstruction } from "./replyLanguage";
 /** @doc Bot reply loop: Cerebras streams the answer and may call web tools (Browserbase) several times before it finishes. */
@@ -76,24 +77,35 @@ const sleep = (ms: number, signal: AbortSignal) => new Promise<void>((resolve, r
   const t = setTimeout(resolve, ms);
   signal.addEventListener("abort", () => { clearTimeout(t); reject(signal.reason); }, { once: true });
 });
-let keyCursor = 0;
 
 /**
  * Sends one model request. On the per-minute limit (429) it rotates to the next key
  * (CEREBRAS_API_KEY may hold several, comma separated) and otherwise waits the
  * provider's Retry-After before trying again, so the reply continues instead of failing.
  */
-export async function cerebrasRequest(keys: string[], body: string, signal: AbortSignal, maxWaitMs = 90_000): Promise<Response> {
+export async function cerebrasRequest(keys: (string | CerebrasKey)[], body: string, signal: AbortSignal, maxWaitMs = 90_000, authorizedBackup = process.env.CEREBRAS_INDEPENDENT_BACKUP_ALLOWED === "true"): Promise<Response> {
+  if (!keys.length) throw new Error("AI is not configured");
+  let keyCursor = 0;
   let waited = 0;
   for (let attempt = 0; ; attempt++) {
     signal.throwIfAborted();
-    const key = keys[keyCursor % keys.length];
-    const res = await fetch(CEREBRAS_URL, { method: "POST", signal, headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" }, body });
-    if (res.status !== 429 && res.status !== 503) return res;
-    await res.body?.cancel().catch(() => {});
-    keyCursor++;
-    if (keys.length > 1 && attempt < keys.length - 1) continue;
+    const key = keys[keyCursor];
+    const credential = typeof key === "string" ? key : key.api_key;
+    const res = await fetch(CEREBRAS_URL, { method: "POST", signal, headers: { Authorization: `Bearer ${credential}`, "Content-Type": "application/json" }, body });
+    if (res.ok) {
+      if (typeof key !== "string") await markCerebrasUse(key);
+      return res;
+    }
+    const failure = classifyProviderFailure(res.status);
     const after = Number(res.headers.get("retry-after"));
+    if (typeof key !== "string" && failure !== "request_error") await markCerebrasFailure(key, res.status, failure, Number.isFinite(after) && after > 0 ? after : undefined);
+    if (canUseAuthorizedBackup(failure, authorizedBackup) && keyCursor + 1 < keys.length) {
+      await res.body?.cancel().catch(() => {});
+      keyCursor++;
+      continue;
+    }
+    if (failure !== "rate_limit" && failure !== "temporary") return res;
+    await res.body?.cancel().catch(() => {});
     const wait = Math.min(Number.isFinite(after) && after > 0 ? after * 1000 + 250 : 2000 * (attempt + 1), 30_000);
     if (waited + wait > maxWaitMs) throw new Error("I'm a bit overloaded right now, give me a minute and send it again.");
     waited += wait;
@@ -114,7 +126,7 @@ export async function runAgentLoop(
   const extras = [...(opts.extras || []), ...(opts.extra ? [opts.extra] : [])];
   const allTools = [...tools, ...extras.map((extra) => extra.def)];
   const maxSteps = opts.maxSteps ?? MAX_STEPS;
-  const keys = opts.chatModel ? [] : (await getCerebrasKeys()).map((k) => k.api_key);
+  const keys = opts.chatModel ? [] : await getCerebrasKeys();
   if (!opts.chatModel && !keys.length) throw new Error("AI is not configured");
   const messages: Msg[] = [{ role: "system", content: system }, ...history];
   let answer = "";

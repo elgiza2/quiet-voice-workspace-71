@@ -33,7 +33,7 @@ export const CEREBRAS_MODELS = {
 } as const;
 
 function envKey(): string {
-  return (process.env.CEREBRAS_API_KEY || process.env.VITE_CEREBRAS_API_KEY || "").trim();
+  return (process.env.CEREBRAS_API_KEY || "").trim();
 }
 
 function adminClient(): SupabaseClient | null {
@@ -53,7 +53,8 @@ export async function getCerebrasKeys(): Promise<CerebrasKey[]> {
       .from("provider_api_keys")
       .select("id,api_key,last_used_at,cooldown_until,failure_count")
       .eq("provider", "cerebras")
-      .eq("status", "active");
+      .eq("status", "active")
+      .order("last_used_at", { ascending: true, nullsFirst: true });
     for (const r of (data ?? []) as Array<Record<string, unknown>>) {
       const api_key = String(r.api_key ?? "").trim();
       if (!api_key) continue;
@@ -66,7 +67,6 @@ export async function getCerebrasKeys(): Promise<CerebrasKey[]> {
         failure_count: Number(r.failure_count ?? 0),
       });
     }
-    rows.sort((a, b) => a.failure_count - b.failure_count);
   }
   if (!rows.length) {
     const key = envKey();
@@ -109,7 +109,7 @@ export async function markCerebrasFailure(
     .from("provider_api_keys")
     .update({
       failure_count: key.failure_count + 1,
-      last_error: `${status}: ${error}`.slice(0, 500),
+      last_error: `upstream_${status}`,
       status: temporary ? "active" : "disabled",
       cooldown_until: temporary
         ? new Date(Date.now() + cooldownSeconds * 1000).toISOString()

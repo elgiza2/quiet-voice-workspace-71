@@ -1,5 +1,6 @@
 import { createClient, type User } from "@supabase/supabase-js";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "./supabaseServerConfig";
+import { DOMAINS } from "@/config/domains";
 
 export interface AuthenticatedRequest {
   user: User;
@@ -25,8 +26,8 @@ export function apiHeaders(request: Request): Record<string, string> {
       process.env.APP_URL,
       process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
       // Production origins, so the API works with zero env configuration.
-      "/",
-      "/",
+      `https://${DOMAINS.web}`,
+      `https://${DOMAINS.android}`,
     ]
       .filter(Boolean)
       .map(String),
