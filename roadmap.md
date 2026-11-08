@@ -1,4 +1,5 @@
 ## Android delivery — 2026-11-08
+- [ ] Validate the uploaded service account privately, attempt Play product activation, and save the credential through the encrypted secret form (never source files).
 - [x] Prepare recurring Google Play products and a one-month-only 50% introductory offer; native offer selection and 8 focused tests pass.
 - [x] Produce versionCode 2 signed bundle and product setup files; signature and bundle validation pass.
 - [ ] Create and activate products inside Play Console: requires GOOGLE_PLAY_SERVICE_ACCOUNT with product-management authorization; secure form requested.
