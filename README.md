@@ -265,7 +265,7 @@ bunx vitest run
 ### Verification — release repair
 - Full suite: 61 files, 202 tests passed. Preview build OK. All content routes inspected: index/catch-all and legal document heads already supply app-specific metadata.
 - Live public pages opened at ceyo.si (redirects to www), web.ceyo.si and app.ceyo.si without page errors. Live Google click fails with provider-disabled response; owner console configuration is still required, not silently enabled here.
-- Isolated actual CheckoutBox choice→card checked at 434×763 and 1280×1800, without page errors. This is not a signed-in checkout or real payment. Google button visual verification is repeated after final style correction.
+- Isolated actual CheckoutBox choice→card checked at 434×763 and 1280×1800, without page errors. This is not a signed-in checkout or real payment. Final Google button screenshots confirm the official 18px logo, 48px height and dark-theme border at both sizes.
 - Full authenticated app/service tests remain unavailable on external unmanaged Supabase; Vercel server credential bindings are unverified. Only managed Lovable keys are configured in this project runtime.
 - All-service Telegram protected entry/encrypted storage/consumer coverage and native Google browser-return remain incomplete. Do not activate existing chat-pasted plaintext intake for production keys.
 - Play upload signing, server credentials, product/base plans, acknowledgment/restore/renewal and physical device tests remain owner-dependent. Exact Google URLs and required release inputs: `docs/VERCEL-AND-PLAY.md`.
