@@ -1,4 +1,5 @@
 ## Android delivery — 2026-11-08
+- [ ] Sign the first bundle with a securely password-protected upload key and deliver its encrypted backup at the owner's explicit request.
 - [x] Install Android build tools and compile the current native release bundle here; Gradle and bundletool validation pass.
 - [x] Prepare Arabic/English store descriptions, existing support contact and subscription catalogue.
 - [x] Implement system-browser PKCE Google return; 7 focused tests pass. Physical-device Google sign-in remains unverified.
