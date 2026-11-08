@@ -1,9 +1,13 @@
 ## Release repair — 2026-11-08
-- [ ] Present card as a peer payment choice; preserve payment logic and verify existing tests.
-- [ ] Make Google return through a public sign-in URL using existing profiles; document exact console URLs.
-- [ ] Diagnose ceyo.si/web.ceyo.si/app.ceyo.si hosting and fix evidenced configuration issues.
-- [ ] Harden Telegram owner access and repair evidenced provider rotation; complete all-service secure intake needs credential/runtime setup.
-- [ ] Provide Google Play signing, subscription and verification requirements; live release requires owner console setup.
+- [x] Card is a peer payment choice; mobile/desktop isolated selection verified; all 202 existing/new tests pass.
+- [x] Public Google return, verified-session navigation and official shared Google button; exact console URLs in release guide.
+- [x] Public sites open; Google is disabled at provider. Restore 27 missing dependencies, Node 22 setting and production API origins. Preview build OK.
+- [x] Explicit Telegram owner allowlist and Cerebras LRU/use/failure tracking; authorized credit failover, no rate-limit key swapping; regression tests pass.
+- [x] Document Google Play signing/subscription/verification inputs; existing native-only billing boundary tested.
+- [ ] Enable Google in owner's Supabase/Google consoles and verify real account; native Android requires system-browser/native Google return.
+- [ ] Complete all-service Telegram secure intake/encrypted storage/provider adapters and live distribution: hosting admin credentials/operator configuration unavailable here; existing plaintext chat intake must not be activated.
+- [ ] Verify signed-in Vercel services: server credential bindings/deployment logs not accessible; public loading does not establish chat/audio/payments.
+- [ ] Signed Google Play release and real purchase/restore/acknowledgment/renewal tests: requires owner Play Console, upload key, product/base-plan setup and device.
 
 ## Complete verification — 2026-11-08 01:45 UTC
 - [x] Run all existing tests: 191 pass; repair nonexistent profile columns, plan read, failed-storage false success, storage retry and chat false completion. Preview build OK.

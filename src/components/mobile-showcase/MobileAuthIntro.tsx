@@ -29,7 +29,7 @@ export default function MobileAuthIntro(p: Props) {
       <AnimatePresence mode="wait" initial={false}><motion.div key={screen} initial={{ opacity: 0, y: reducedMotion ? 0 : 12, scale: reducedMotion ? 1 : .985 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -6, scale: reducedMotion ? 1 : .985 }} transition={{ duration: reducedMotion ? 0 : .28, ease: [.22, 1, .36, 1] }}>
       {p.error && <p role="alert" className="megsy-auth-error">{p.error}</p>}
       {!p.expanded ? <>
-        <GoogleSignInButton className="megsy-auth-pill" label={label("Google")} onClick={p.onGoogle} disabled={p.isSubmitting} />
+        <GoogleSignInButton label={label("Google")} onClick={p.onGoogle} disabled={p.isSubmitting} />
         <Button variant="ghost" className="megsy-auth-pill megsy-auth-primary" onClick={p.onEmail}><Mail size={21} /><span>{ar ? "التسجيل بالبريد الإلكتروني" : "Continue with email"}</span></Button>
       </> : <form className="megsy-auth-form" onSubmit={e => { e.preventDefault(); if (!p.isSubmitting) (p.showPasswordField ? p.onSubmitPassword : p.onSubmitEmail)?.(); }}>
         <h2>{p.showPasswordField ? (creating ? (ar ? "أنشئ كلمة مرور" : "Create your password") : (ar ? "أدخل كلمة المرور" : "Enter your password")) : (ar ? "أدخل بريدك الإلكتروني" : "Enter your email")}</h2>

@@ -256,6 +256,20 @@ bunx vitest run
 انظر `roadmap.md` لحالة الطلب الحالي؛ الأقسام التاريخية فيه ليست قائمة حقائق حديثة وقد تتعارض بسبب نقل المساحات والخدمات.
 
 ## Current work
+### Release repair — 2026-11-08
+- Card now appears alongside wallet/Google Pay as a payment choice, with Visa/Mastercard marks; payment logic is unchanged.
+- Google OAuth now returns publicly to `/auth?oauth=1&redirect=...` and verifies the user before following the sanitized destination. Google buttons use shared official branding. Existing profiles/triggers remain unchanged.
+- Restored missing imported UI dependencies (27 packages), declared Node 22, and replaced invalid API origin placeholders with web.ceyo.si/app.ceyo.si.
+- Telegram fails closed without configured owner IDs; listings no longer select credential values. Cerebras preserves pool records, uses LRU and records successful/failing requests; independent backup requires provider authorization, and rate limits wait on the same key.
+
+### Verification — release repair
+- Full suite: 61 files, 202 tests passed. Preview build OK. All content routes inspected: index/catch-all and legal document heads already supply app-specific metadata.
+- Live public pages opened at ceyo.si (redirects to www), web.ceyo.si and app.ceyo.si without page errors. Live Google click fails with provider-disabled response; owner console configuration is still required, not silently enabled here.
+- Isolated actual CheckoutBox choice→card checked at 434×763 and 1280×1800, without page errors. This is not a signed-in checkout or real payment. Google button visual verification is repeated after final style correction.
+- Full authenticated app/service tests remain unavailable on external unmanaged Supabase; Vercel server credential bindings are unverified. Only managed Lovable keys are configured in this project runtime.
+- All-service Telegram protected entry/encrypted storage/consumer coverage and native Google browser-return remain incomplete. Do not activate existing chat-pasted plaintext intake for production keys.
+- Play upload signing, server credentials, product/base plans, acknowledgment/restore/renewal and physical device tests remain owner-dependent. Exact Google URLs and required release inputs: `docs/VERCEL-AND-PLAY.md`.
+
 - Voice calls switched to Deepgram Voice Agent (src/lib/audio/liveAgentCall.ts). Verified with a server-side Arabic test; Member key saved; Arabic speech in → Arabic spoken reply verified via the same browser token path. Not yet tested on a phone.
 
 ### المحفظة — 2026-11-07 15:15 UTC

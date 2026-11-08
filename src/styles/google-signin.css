@@ -3,6 +3,7 @@
 html body button.ceyo-google-signin, html body .megsy-auth-screen button.ceyo-google-signin, html body .megsy-auth-screen button.ceyo-google-signin:hover {
   display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px;
   padding: 12px; gap: 10px; border: 1px solid var(--google-button-border) !important;
+  border-radius: 999px; margin-bottom: 10px;
   background: var(--google-button-bg) !important; color: var(--google-button-text) !important;
   -webkit-text-fill-color: var(--google-button-text) !important;
   font-family: "Google Sans", "DM Sans", sans-serif; font-size: 14px !important; line-height: 20px !important; font-weight: 500;
