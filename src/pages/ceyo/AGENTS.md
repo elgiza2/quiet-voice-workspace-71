@@ -1,0 +1,3 @@
+- Settings, phone and bot-editor visuals live in src/styles/settings-polish.css, imported last by CeyoSettings and HubPanels and scoped to those screens. Why: older stacked stylesheets made row sizes and buttons inconsistent; one final layer keeps them uniform.
+- Integrations are a separate lazy page and checkout loads only on Subscribe; connection snapshots are owner-scoped and short-lived. Why: settings opening must not load the catalogue/payment graph or reuse another account's state.
+- Device preference reads/writes use settingsStorage and show failed saves rather than success; Vault state changes only after persistence. Why: denied/quota-full storage must not crash settings or lose entered data.

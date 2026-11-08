@@ -1,0 +1,2 @@
+- Recorded voice notes use the owner-configured Deepgram multilingual transcription endpoint with language=multi; never derive input language from the interface locale or fall back to forced English. Why: the old locale hint converted Arabic recordings into English text before the agent saw them. Call providers and speech synthesis remain unchanged.
+- voiceClient maps the exact internal Cartesia quota notice to a localized unavailable-voice error and still rejects failed requests. Why: hide operator account instructions without implying audio succeeded.
