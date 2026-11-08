@@ -1,7 +1,9 @@
 ## Android delivery — 2026-11-08
+- [x] Validate uploaded service account privately; create/activate and read back all four Play subscriptions and three one-month-only 50% offers (174 regions). Google-normalized US prices: 19.99/199.99/59.99/119.99 USD.
+- [ ] Persist GOOGLE_PLAY_SERVICE_ACCOUNT through the encrypted secret form; uploaded credential was used transiently, never copied to source. Waiting for secure-form submission.
 - [x] Prepare recurring Google Play products and a one-month-only 50% introductory offer; native offer selection and 8 focused tests pass.
 - [x] Produce versionCode 2 signed bundle and product setup files; signature and bundle validation pass.
-- [ ] Create and activate products inside Play Console: requires GOOGLE_PLAY_SERVICE_ACCOUNT with product-management authorization; secure form requested.
+- [x] Create and activate products inside Play Console using uploaded service account; fresh API reads confirm ACTIVE base plans and monthly offers.
 - [x] Sign the first bundle with a secure-form password and deliver the password-protected upload-key backup; jarsigner verification and bundletool validation pass.
 - [x] Install Android build tools and compile the current native release bundle here; Gradle and bundletool validation pass.
 - [x] Prepare Arabic/English store descriptions, existing support contact and subscription catalogue.
