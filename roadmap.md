@@ -1,4 +1,6 @@
 ## Android delivery — 2026-11-08
+- [ ] Prepare recurring Google Play products and a one-month-only 50% introductory offer; select the correct eligible offer in native checkout.
+- [ ] Produce an updated signed bundle and product setup files; live product creation needs authorized Play Console access.
 - [x] Sign the first bundle with a secure-form password and deliver the password-protected upload-key backup; jarsigner verification and bundletool validation pass.
 - [x] Install Android build tools and compile the current native release bundle here; Gradle and bundletool validation pass.
 - [x] Prepare Arabic/English store descriptions, existing support contact and subscription catalogue.
