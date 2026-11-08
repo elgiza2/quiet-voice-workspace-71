@@ -47,6 +47,7 @@ import { Route as ApiVoiceTranscribeRouteImport } from './routes/api/voice-trans
 import { Route as ApiWalletRouteImport } from './routes/api/wallet'
 import { Route as ApiWalletActionRouteImport } from './routes/api/wallet-action'
 import { Route as ApiWebSearchRouteImport } from './routes/api/web-search'
+import { Route as AuthNativeReturnRouteImport } from './routes/auth.native-return'
 import { Route as ApiAgentSplatRouteImport } from './routes/api/agent.$'
 import { Route as ApiPublicCeyoJobsRouteImport } from './routes/api/public/ceyo-jobs'
 import { Route as ApiPublicCeyoRoutinesRouteImport } from './routes/api/public/ceyo-routines'
@@ -251,6 +252,11 @@ const ApiWebSearchRoute = ApiWebSearchRouteImport.update({
   path: '/api/web-search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthNativeReturnRoute = AuthNativeReturnRouteImport.update({
+  id: '/auth/native-return',
+  path: '/auth/native-return',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAgentSplatRoute = ApiAgentSplatRouteImport.update({
   id: '/api/agent/$',
   path: '/api/agent/$',
@@ -359,6 +365,7 @@ export interface FileRoutesByFullPath {
   '/api/wallet': typeof ApiWalletRoute
   '/api/wallet-action': typeof ApiWalletActionRoute
   '/api/web-search': typeof ApiWebSearchRoute
+  '/auth/native-return': typeof AuthNativeReturnRoute
   '/api/agent/$': typeof ApiAgentSplatRoute
   '/api/public/ceyo-jobs': typeof ApiPublicCeyoJobsRoute
   '/api/public/ceyo-routines': typeof ApiPublicCeyoRoutinesRoute
@@ -412,6 +419,7 @@ export interface FileRoutesByTo {
   '/api/wallet': typeof ApiWalletRoute
   '/api/wallet-action': typeof ApiWalletActionRoute
   '/api/web-search': typeof ApiWebSearchRoute
+  '/auth/native-return': typeof AuthNativeReturnRoute
   '/api/agent/$': typeof ApiAgentSplatRoute
   '/api/public/ceyo-jobs': typeof ApiPublicCeyoJobsRoute
   '/api/public/ceyo-routines': typeof ApiPublicCeyoRoutinesRoute
@@ -466,6 +474,7 @@ export interface FileRoutesById {
   '/api/wallet': typeof ApiWalletRoute
   '/api/wallet-action': typeof ApiWalletActionRoute
   '/api/web-search': typeof ApiWebSearchRoute
+  '/auth/native-return': typeof AuthNativeReturnRoute
   '/api/agent/$': typeof ApiAgentSplatRoute
   '/api/public/ceyo-jobs': typeof ApiPublicCeyoJobsRoute
   '/api/public/ceyo-routines': typeof ApiPublicCeyoRoutinesRoute
@@ -521,6 +530,7 @@ export interface FileRouteTypes {
     | '/api/wallet'
     | '/api/wallet-action'
     | '/api/web-search'
+    | '/auth/native-return'
     | '/api/agent/$'
     | '/api/public/ceyo-jobs'
     | '/api/public/ceyo-routines'
@@ -574,6 +584,7 @@ export interface FileRouteTypes {
     | '/api/wallet'
     | '/api/wallet-action'
     | '/api/web-search'
+    | '/auth/native-return'
     | '/api/agent/$'
     | '/api/public/ceyo-jobs'
     | '/api/public/ceyo-routines'
@@ -627,6 +638,7 @@ export interface FileRouteTypes {
     | '/api/wallet'
     | '/api/wallet-action'
     | '/api/web-search'
+    | '/auth/native-return'
     | '/api/agent/$'
     | '/api/public/ceyo-jobs'
     | '/api/public/ceyo-routines'
@@ -681,6 +693,7 @@ export interface RootRouteChildren {
   ApiWalletRoute: typeof ApiWalletRoute
   ApiWalletActionRoute: typeof ApiWalletActionRoute
   ApiWebSearchRoute: typeof ApiWebSearchRoute
+  AuthNativeReturnRoute: typeof AuthNativeReturnRoute
   ApiAgentSplatRoute: typeof ApiAgentSplatRoute
   ApiPublicCeyoJobsRoute: typeof ApiPublicCeyoJobsRoute
   ApiPublicCeyoRoutinesRoute: typeof ApiPublicCeyoRoutinesRoute
@@ -964,6 +977,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiWebSearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/native-return': {
+      id: '/auth/native-return'
+      path: '/auth/native-return'
+      fullPath: '/auth/native-return'
+      preLoaderRoute: typeof AuthNativeReturnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/agent/$': {
       id: '/api/agent/$'
       path: '/api/agent/$'
@@ -1097,6 +1117,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiWalletRoute: ApiWalletRoute,
   ApiWalletActionRoute: ApiWalletActionRoute,
   ApiWebSearchRoute: ApiWebSearchRoute,
+  AuthNativeReturnRoute: AuthNativeReturnRoute,
   ApiAgentSplatRoute: ApiAgentSplatRoute,
   ApiPublicCeyoJobsRoute: ApiPublicCeyoJobsRoute,
   ApiPublicCeyoRoutinesRoute: ApiPublicCeyoRoutinesRoute,
