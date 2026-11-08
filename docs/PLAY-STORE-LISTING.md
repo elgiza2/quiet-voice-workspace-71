@@ -47,8 +47,32 @@ Support: support@ceyo.si
 
 Create and activate these four products in Play Console after the first bundle upload. Google Play sets final country prices/taxes. Do not offer Pro/Ultra yearly: the app does not sell those combinations.
 
+## عرض أول شهر — 50٪ فقط
+للمشترك الذي لم يسبق له امتلاك أي اشتراك في التطبيق، على الباقات الشهرية فقط:
+| الاشتراك | أول شهر بالدولار المرجعي | الشهر الثاني وما بعده |
+|---|---|---|
+| Plus | 10 | 20 كل شهر |
+| Pro | 30 | 60 كل شهر |
+| Ultra | 60 | 120 كل شهر |
+
+- النوع: اشتراك auto-renewing، وليس منتجًا لمرة واحدة.
+- Base plan: monthly، مدة P1M.
+- Offer ID: first-month-half؛ الأهلية New customer acquisition → Never had any subscription in this app.
+- مرحلة عرض واحدة: P1M، recurrenceCount=1، خصم نسبي 50٪. بعدها Google Play يرجع تلقائيًا لسعر الباقة المتكرر الكامل.
+- السنوي Plus يبقى 199 دولارًا سنويًا؛ لا خصم أول شهر عليه. شاشة Google Play تعرض السعر المحلي والضرائب والأهلية قبل التأكيد.
+- لم تُنشأ المنتجات داخل Play Console بعد؛ لا توجد صلاحية حساب خدمة مُهيأة هنا.
+
+## إنشاء المنتجات من بيئة المشغل
+scripts/configure-play-products.ts يعتمد كتالوج التطبيق، ويُنشئ المنتجات والـbase plans والعروض من خلال Android Publisher API الرسمي.
+1. امنح حساب خدمة Google صلاحية إدارة منتجات التطبيق في Play Console وفعّل Google Play Android Developer API.
+2. احفظ ملف JSON الذي أصدرته Google في GOOGLE_PLAY_SERVICE_ACCOUNT عبر النموذج الآمن، لا في الشات أو Git.
+3. bun scripts/configure-play-products.ts يعرض إعدادات مقترحة فقط، دون أي تغيير خارجي.
+4. bun scripts/configure-play-products.ts --apply ينشئ مسودات المنتجات والعروض. لا يمسح أو يغيّر إعدادًا موجودًا مختلفًا.
+5. راجع البلدان والأسعار المحلية ثم شغّل --apply --activate للتفعيل. تغيير الأسعار والعرض الموجودين ليس تلقائيًا.
+6. اختبر عملية الشراء والتجديد الفعليين في Internal testing؛ تكوين المنتجات وحده لا يصلح فجوات acknowledgment/restore/renewal.
+
 ## Release gate — do not describe the bundle as upload-ready
-- The supplied bundle is **unsigned**. Android project rules keep upload keys on the owner's machine, outside source and deliverables. Sign locally with an owner-held upload key and enable Play App Signing.
+- The updated bundle is signed using the same owner-backed-up upload key, versionCode 2 / versionName 1.0.1. Enable Play App Signing. Signing does not activate products or verify payments.
 - Publish the current app build at app.ceyo.si, including /auth/native-return. Allow https://app.ceyo.si/auth/native-return in Supabase Auth redirect URLs. Browser OAuth uses the existing Google Web client, PKCE, and a system browser; no OAuth client secret belongs in the Android app.
 - Configure GOOGLE_PLAY_SERVICE_ACCOUNT securely on the hosting server with authorized Play Console access, and GOOGLE_PLAY_PACKAGE_NAME=si.ceyo.app. This credential must be issued by Google, not invented.
 - Purchase acknowledgment, restore and renewal reconciliation remain incomplete; do not enable public sales before those paths pass actual Internal testing.
