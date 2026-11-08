@@ -45,6 +45,7 @@
 - Read docs/ARCHITECTURE.md first for domains, payment split and code map. Why: one handoff map for successor agents.
 - Vercel selects the existing Nitro adapter only for VERCEL=1; Lovable retains its managed preset. Why: external hosting must not break preview builds or duplicate plugins.
 - Android uses the Capacitor shell and trusted native Play Billing plugin; the server verifies purchases before granting plans. Why: no web payment inside the store app and no client-side entitlement grants.
+- Android Google uses system-browser PKCE and /auth/native-return → ceyo://auth/callback. Why: no Google WebView or session tokens in links.
 - Use nextHop as the single sequential, connection-budgeted warm-up scheduler; never independently prerender private app pages or warm every heavy screen at startup. Why: avoid duplicate app boot and network/main-thread contention.
 - Persist only allowlisted page UI state through pageStateCache; version, validate, expire, bound and clear on identity changes; attach scroll retention to asynchronously inserted/replaced page scrollers without remounting routes. Never cache page HTML or private payloads. Why: instant return must survive lazy loading without replaying private content or duplicate React screens.
 - Keep current subscription/checkout styles separate from obsolete paywall sheets; do not reintroduce duplicate global CSS copies. Why: unused global layers add parsing cost and conflicting decoration.

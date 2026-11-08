@@ -131,6 +131,19 @@ const AuthPage = () => {
   useEffect(() => forceDarkTheme(), []);
 
   useEffect(() => {
+    let disposed = false;
+    let stop: (() => void) | undefined;
+    void import("@/lib/native/googleAuth").then(async ({ listenNativeGoogle }) => {
+      const cleanup = await listenNativeGoogle(
+        () => { if (!disposed) navigateAfterAuth(navigate, redirectUrl || "/", window.location.search); },
+        (error) => { if (!disposed) { setMobileError(translateAuthError(error, "loginFailed")); setIsSubmitting(false); } },
+      );
+      if (disposed) cleanup(); else stop = cleanup;
+    }).catch(() => { if (!disposed) setIsSubmitting(false); });
+    return () => { disposed = true; stop?.(); };
+  }, [navigate, redirectUrl]);
+
+  useEffect(() => {
     if (new URLSearchParams(window.location.search).get("oauth") !== "1") return;
     let disposed = false;
     let checking = false;
@@ -580,6 +593,8 @@ const AuthPage = () => {
     setIsSubmitting(true);
     clearMobileError();
     try {
+      const { startNativeGoogle } = await import("@/lib/native/googleAuth");
+      if (await startNativeGoogle()) { setIsSubmitting(false); return; }
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: { redirectTo: absoluteAuthRedirect(redirectUrl || "/", window.location.search), skipBrowserRedirect: true },
