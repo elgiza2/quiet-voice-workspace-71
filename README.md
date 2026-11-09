@@ -270,6 +270,13 @@ bunx vitest run
 انظر `roadmap.md` لحالة الطلب الحالي؛ الأقسام التاريخية فيه ليست قائمة حقائق حديثة وقد تتعارض بسبب نقل المساحات والخدمات.
 
 ## Current work
+### Vercel import, video repair and daily free quota — 2026-11-09
+- Imported `elgiza2/quiet-voice-workspace-71` into the Vercel team as `quiet-voice-workspace-71` on `main`; no deployment or domain change was made. Correct public Supabase URL/project ID/publishable-key settings are present in all Vercel environments.
+- Added and applied `reserve_free_video_call_minute`: one successful free video session per Cairo calendar day, with atomic duplicate protection. Anam tokens now have one start, a 120-second start-token expiry, and an Anam-side 60-second session cap; browser retries are disabled so one daily token cannot start multiple sessions. The API returns a clear 429 when the daily allowance has been used. Anam documents the session duration field and server-side stop endpoint at [create session token](https://anam.ai/docs/api-reference/sessions/create-session-token) and [stop session](https://anam.ai/docs/api-reference/sessions/stop-session).
+- Active provider-key records already exist server-side for Anam, Cartesia, Deepgram, Cerebras, Browserbase, Composio and Telnyx; key values were not read. The app requires `SUPABASE_SERVICE_ROLE_KEY` on Vercel to read those records and perform trusted server operations. That secret is not configured in the new Vercel project, so production deployment and moving `app.ceyo.si` / `web.ceyo.si` are deliberately blocked until it is added securely.
+- `/k` does not exist in this repository and there are no `admin` role assignments in Supabase. Do not use the requested hard-coded password `1` for a page that can write API credentials; it would allow trivial takeover. A secure `/k` needs a named Supabase administrator account/role. The currently stored provider keys make a key-entry page unnecessary for the video fix itself.
+- Verification: Vercel build succeeds, TypeScript is clean, and the full Vitest suite passes (64 files, 210 tests). Live Anam/WebRTC behavior remains unverified until the server key is configured and a signed-in call is tested.
+
 ### Release repair — 2026-11-08
 - Card now appears alongside wallet/Google Pay as a payment choice, with Visa/Mastercard marks; payment logic is unchanged.
 - Google OAuth now returns publicly to `/auth?oauth=1&redirect=...` and verifies the user before following the sanitized destination. Google buttons use shared official branding. Existing profiles/triggers remain unchanged.

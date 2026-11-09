@@ -29,6 +29,7 @@ describe("video call recovery", () => {
     calls.start({ kind: "video", agent: { id: "bot", name: "Bot" } as AgentInfo, agentIds: ["bot"] });
     const screen = render(<StrictMode><ActiveCallScreen /></StrictMode>);
     await waitFor(() => expect(sdk.clients).toHaveLength(1));
+    expect(sdk.create.mock.calls[0]?.[1]).toEqual({ api: { retry: { maxAttempts: 1 } } });
     expect(fetcher).toHaveBeenCalledTimes(1);
     const first = sdk.clients[0];
     const remote = { getTracks: () => [] };

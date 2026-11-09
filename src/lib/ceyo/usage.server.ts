@@ -1,9 +1,15 @@
 import { EXHAUSTED_MESSAGE } from "./usage";
 import type { SupabaseClient } from "@supabase/supabase-js";
-/** Owner-scoped read, also used before issuing provider access tokens. */
-export async function checkUsageAvailable(db: SupabaseClient): Promise<void> {
+export type UsageStatus = { isPaid: boolean; remainingUsd: number; stepUsd: number };
+/** Owner-scoped read used by usage gates and entitlement-specific features. */
+export async function getUsageStatus(db: SupabaseClient): Promise<UsageStatus> {
   const { data, error } = await db.rpc("agent_usage_status");
   if (error || !data || typeof data.isPaid !== "boolean" || typeof data.remainingUsd !== "number" || typeof data.stepUsd !== "number") throw new Error("Could not check usage. Please try again later.");
+  return { isPaid: data.isPaid, remainingUsd: data.remainingUsd, stepUsd: data.stepUsd };
+}
+/** Owner-scoped read, also used before issuing provider access tokens. */
+export async function checkUsageAvailable(db: SupabaseClient): Promise<void> {
+  const data = await getUsageStatus(db);
   if (!data.isPaid && data.remainingUsd < data.stepUsd) throw new Error(EXHAUSTED_MESSAGE);
 }
 export function usageFailure(error: unknown): Response {

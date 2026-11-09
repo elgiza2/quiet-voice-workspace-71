@@ -279,6 +279,7 @@ function VideoCall({ call, minimized }: { call: ActiveCall; minimized: boolean }
     let startup: Promise<void> = Promise.resolve();
     let watchdog: ReturnType<typeof setTimeout> | undefined;
     let fallback: ReturnType<typeof setTimeout> | undefined;
+    let dailyLimitTimer: ReturnType<typeof setTimeout> | undefined;
     let disposal: Promise<void> | undefined;
     const controller = new AbortController();
     const dispose = () => {
@@ -291,7 +292,7 @@ function VideoCall({ call, minimized }: { call: ActiveCall; minimized: boolean }
     };
     const failed = (message: string) => {
       if (cancelled) return;
-      cancelled = true; controller.abort(); clearTimeout(watchdog);
+      cancelled = true; controller.abort(); clearTimeout(watchdog); clearTimeout(dailyLimitTimer);
       setError(message); setStatus("ended");
       teardown.current = dispose();
     };
@@ -314,7 +315,7 @@ function VideoCall({ call, minimized }: { call: ActiveCall; minimized: boolean }
         if (cancelled) return;
         const { createClient, AnamEvent } = await import("@anam-ai/js-sdk");
         if (cancelled) return;
-        const c = createClient(body.sessionToken);
+        const c = createClient(body.sessionToken, { api: { retry: { maxAttempts: 1 } } });
         owned = c; client.current = c;
         // The call is live once a frame renders, the remote video starts playing or the
         // conversation begins; mobile browsers do not always report the first frame.
@@ -346,6 +347,9 @@ function VideoCall({ call, minimized }: { call: ActiveCall; minimized: boolean }
         c.addListener(AnamEvent.CONNECTION_CLOSED, () => failed(ar ? "اتصال الفيديو انقطع. حاول تاني." : "Video connection closed. Please retry."));
         c.addListener(AnamEvent.MIC_PERMISSION_DENIED, () => failed(ar ? "اسمح للتطبيق باستخدام الميكروفون" : "Allow microphone access to talk"));
         watchdog = setTimeout(() => failed(ar ? "الفيديو موصلش. حاول تاني أو راجع اتصال الإنترنت." : "Video did not connect. Retry or check your connection."), 30000);
+        if (body.maxSessionLengthSeconds === 60) {
+          dailyLimitTimer = setTimeout(() => failed(ar ? "خلصت دقيقة الفيديو المجانية لليوم. تقدر تستخدمها تاني بعد منتصف الليل بتوقيت القاهرة." : "Your free daily video minute has ended. It resets at midnight Cairo time."), 60000);
+        }
         await c.streamToVideoElement(videoId);
       } catch (e) {
         const denied = e instanceof DOMException && (e.name === "NotAllowedError" || e.name === "SecurityError");
@@ -353,7 +357,7 @@ function VideoCall({ call, minimized }: { call: ActiveCall; minimized: boolean }
       }
     })(); }, 0);
     return () => {
-      cancelled = true; clearTimeout(begin); clearTimeout(watchdog); clearTimeout(fallback); controller.abort();
+      cancelled = true; clearTimeout(begin); clearTimeout(watchdog); clearTimeout(fallback); clearTimeout(dailyLimitTimer); controller.abort();
       if (audioRef.current) { audioRef.current.pause(); audioRef.current.srcObject = null; }
       teardown.current = dispose();
     };
