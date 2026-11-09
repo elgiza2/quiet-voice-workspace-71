@@ -279,11 +279,11 @@ async function summarize(row: CallRow, turns: Turn[], botName: string) {
     return arabic ? `اتصلت بـ ${row.counterpart} ومحدش رد.` : `I called ${row.counterpart} but nobody answered.`;
   }
   try {
-    const { generateChatCompletion } = await import("@lovable.dev/ai-gateway");
-    const result = await generateChatCompletion({ model: "openai/gpt-6.1-terra", reasoning_effort: "medium", messages: [
+    const { generateCerebrasChatCompletion } = await import("@/lib/ceyo/cerebrasCompletion.server");
+    const result = await generateCerebrasChatCompletion([
       { role: "system", content: `You are ${botName}. You just finished a real ${row.direction} phone call ${row.direction === "outbound" ? `to ${row.counterpart}` : `from ${row.counterpart}`}${row.purpose ? ` (goal: ${row.purpose})` : ""}. Write ONE short report to your user: the outcome, key facts (names, times, prices, confirmations) and any next step. Be honest: never claim something was agreed if the transcript does not show it. Use the user's language (${arabic ? "Arabic, natural Egyptian if the call was Egyptian" : "the language of the goal"}). Plain text, no headings.` },
       { role: "user", content: JSON.stringify(turns.slice(-80)) },
-    ] });
+    ], AbortSignal.timeout(90_000));
     const content = result.choices[0]?.message.content?.trim();
     if (content) return content;
   } catch { /* fall back to the transcript */ }

@@ -8,6 +8,7 @@ const FCM = "https://connector-gateway.lovable.dev/firebase_messaging/v1/project
 type Admin = Awaited<typeof import("@/integrations/supabase/client.server")>["supabaseAdmin"];
 
 async function sendToUser(admin: Admin, userId: string, title: string, body: string, data: Record<string, string>) {
+  // This Lovable credential authenticates the Firebase connector transport; it is not used for model inference.
   const lovable = process.env["LOVABLE_API_KEY"];
   const conn = process.env["FIREBASE_MESSAGING_API_KEY"];
   if (!lovable || !conn) return "not_configured";
@@ -44,20 +45,14 @@ function localParts(tz: string) {
 
 async function morningText(tasks: string[], goals: string[]) {
   const fallback = tasks.length ? `النهارده عندك: ${tasks.slice(0, 4).join("، ")}` : "يومك فاضي — قولّي عايز تنجز إيه النهارده.";
-  const key = process.env["LOVABLE_API_KEY"];
-  if (!key || (!tasks.length && !goals.length)) return fallback;
+  if (!tasks.length && !goals.length) return fallback;
   try {
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "openai/gpt-6-astra",
-        input: `اكتب إشعار صباحي قصير جدًا (جملتين بحد أقصى، أقل من 180 حرف) بالعامية المصرية يلخّص يوم المستخدم ويشجعه. مهام النهارده: ${tasks.join(" | ") || "لا يوجد"}. أهدافه: ${goals.join(" | ") || "لا يوجد"}. اكتب النص بس.`,
-      }),
-    });
-    if (!res.ok) return fallback;
-    const j = (await res.json()) as { output_text?: string; output?: { content?: { text?: string }[] }[] };
-    const text = j.output_text || j.output?.flatMap((o) => o.content ?? []).map((c) => c.text ?? "").join("") || "";
+    const { generateCerebrasChatCompletion } = await import("@/lib/ceyo/cerebrasCompletion.server");
+    const result = await generateCerebrasChatCompletion([
+      { role: "system", content: "اكتب إشعار صباحي قصير جدًا (جملتين بحد أقصى، أقل من 180 حرف) بالعامية المصرية يلخّص يوم المستخدم ويشجعه. اكتب النص فقط، من غير عنوان أو مقدمات." },
+      { role: "user", content: `مهام النهارده: ${tasks.join(" | ") || "لا يوجد"}. أهدافه: ${goals.join(" | ") || "لا يوجد"}.` },
+    ], AbortSignal.timeout(20_000));
+    const text = result.choices[0]?.message.content || "";
     return text.trim().slice(0, 240) || fallback;
   } catch {
     return fallback;
