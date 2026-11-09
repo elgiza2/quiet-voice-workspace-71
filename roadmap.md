@@ -1,3 +1,10 @@
+## Calls, key administration and Vercel — 2026-11-09
+- [ ] Diagnose and repair video calls against the active provider.
+- [ ] Enforce one minute of video daily per free account, including concurrent sessions.
+- [ ] Manage active AI/voice/video credentials from /k with server-verified administrator access; do not use a weak password as sole authorization.
+- [ ] Deploy to Vercel at app.ceyo.si and web.ceyo.si with private server credential bindings; requires authorized Vercel access.
+- [ ] Run focused tests, verify available public/private flows and update handoff.
+
 ## Android delivery — 2026-11-08
 - [x] Audit declaration evidence and save closed-testing draft versionCode 2; alpha countries currently sync with production, with no explicit region list or Google Groups configured.
 - [x] Create and visually inspect original-icon feature graphic; upload and freshly read back one graphic for each Arabic/English listing. Declaration evidence and remaining steps recorded in docs/PLAY-CONSOLE-DECLARATIONS.md.
