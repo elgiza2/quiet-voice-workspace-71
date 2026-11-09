@@ -5,7 +5,7 @@
 - [x] Add `SUPABASE_SERVICE_ROLE_KEY` as a Sensitive Vercel variable for Production, Preview and Development. Rotate later in Supabase and update Vercel because the current value was supplied through chat; coordinate other consumers first.
 - [ ] Create `/k` only after designating an actual Supabase admin account. No admin role exists today; do not publish the requested shared password `1` because it would expose provider-key management.
 - [x] Publish production to `https://quiet-voice-workspace-71.vercel.app`; Vercel build Ready, public root returns HTTP 200, and previews remain SSO-protected.
-- [ ] Attach `app.ceyo.si` / `web.ceyo.si` to the new project when the owner is ready; they remain on the older project by the owner's latest instruction. No DNS records were changed.
+- [x] `app.ceyo.si` and `web.ceyo.si` now resolve to the new project; Vercel confirms both verified, and both return HTTP 200. The owner added them in Vercel after the initial deployment; no DNS records were changed by this task. Apex/`www` remain on the older project.
 
 ## Android delivery — 2026-11-08
 - [x] Audit declaration evidence and save closed-testing draft versionCode 2; alpha countries currently sync with production, with no explicit region list or Google Groups configured.
