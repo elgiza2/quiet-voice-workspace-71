@@ -1,10 +1,11 @@
 ## Calls, key administration and Vercel — 2026-11-09
-- [x] Import GitHub repository into Vercel and configure the active Supabase URL, project ID and publishable key in all environments; do not deploy incomplete production.
+- [x] Import GitHub repository into Vercel; configure Supabase URL/project ID/publishable key and server-role credential in all Vercel environments.
 - [x] Apply atomic one-free-video-session-per-Cairo-day quota and Anam-side 60-second session maximum; disable SDK retries/reuse for a single token.
 - [x] Provider pool already has active rows for the required AI/voice/video keys; no secret values read. 64 test files/210 tests, TypeScript and build pass.
-- [ ] Add `SUPABASE_SERVICE_ROLE_KEY` to the Vercel project through a secure input path; the server currently has no service-role credential, so calls and trusted key lookups cannot work.
+- [x] Add `SUPABASE_SERVICE_ROLE_KEY` as a Sensitive Vercel variable for Production, Preview and Development. Rotate later in Supabase and update Vercel because the current value was supplied through chat; coordinate other consumers first.
 - [ ] Create `/k` only after designating an actual Supabase admin account. No admin role exists today; do not publish the requested shared password `1` because it would expose provider-key management.
-- [ ] Publish and move `app.ceyo.si` / `web.ceyo.si` after the private server key is configured and a signed-in video call is verified.
+- [x] Publish production to `https://quiet-voice-workspace-71.vercel.app`; Vercel build Ready, public root returns HTTP 200, and previews remain SSO-protected.
+- [ ] Attach `app.ceyo.si` / `web.ceyo.si` to the new project when the owner is ready; they remain on the older project by the owner's latest instruction. No DNS records were changed.
 
 ## Android delivery — 2026-11-08
 - [x] Audit declaration evidence and save closed-testing draft versionCode 2; alpha countries currently sync with production, with no explicit region list or Google Groups configured.
